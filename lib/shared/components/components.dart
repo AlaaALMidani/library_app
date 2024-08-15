@@ -7,17 +7,18 @@ import 'package:shimmer/shimmer.dart';
 class CustomButton extends StatelessWidget {
   final String text;
   final Function function;
+  final double height ;
   const CustomButton({
     super.key,
     required this.text,
-    required this.function,
+    required this.function, required this.height,
   });
 
   @override
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      height: 67,
+      height: height,
       decoration: BoxDecoration(
         color: primaryColor,
         borderRadius: BorderRadius.circular(19),
@@ -341,8 +342,6 @@ Widget placeHolder(width, hight) => SizedBox(
       ),
     );
 
-
-
 class RatingStars extends StatelessWidget {
   final int rating; // the rating value (e.g. 3, 4, 5)
   final int maxRating; // the maximum rating value (e.g. 5)
@@ -367,6 +366,52 @@ class RatingStars extends StatelessWidget {
             size: starSize,
           ),
       ],
+    );
+  }
+}
+
+class SmallIcon extends StatelessWidget {
+  final String text;
+  final IconData icon;
+  final Color color;
+  const SmallIcon({
+    super.key,
+    required this.text,
+    required this.icon,
+    required this.color,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 22,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(8),
+        color: color,
+        // boxShadow: shadow,
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          const SizedBox(
+            width: 5,
+          ),
+          Icon(
+            icon,
+            color: const Color.fromARGB(206, 228, 244, 251),
+            size: 16,
+          ),
+          Text(
+            ' $text  ',
+            style: const TextStyle(
+              color: Color.fromARGB(205, 246, 254, 255),
+              fontSize: 10,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          const SizedBox(width: 5),
+        ],
+      ),
     );
   }
 }

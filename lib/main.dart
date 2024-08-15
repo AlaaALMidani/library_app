@@ -5,7 +5,6 @@ import 'package:library_app/layout/layout.dart';
 import 'package:library_app/modules/book/book_screen.dart';
 import 'package:library_app/modules/book_information/book_infomation.dart';
 import 'package:library_app/modules/home/home_screen.dart';
-import 'package:library_app/modules/library/resources_screen.dart';
 import 'package:library_app/modules/login/login_screen.dart';
 import 'package:library_app/modules/register/register_screen.dart';
 import 'package:library_app/shared/block_observer.dart';

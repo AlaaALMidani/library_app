@@ -78,9 +78,9 @@ class BookItem extends StatelessWidget {
             ),
           ),
           Container(
-            decoration: BoxDecoration(
-              borderRadius: const BorderRadius.all(Radius.circular(14)),
-              boxShadow: const [
+            decoration: const BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(14)),
+              boxShadow: [
                 BoxShadow(
                     color: Color.fromARGB(136, 0, 0, 0),
                     offset: Offset(0, 6),

@@ -35,6 +35,7 @@ class AppCubit extends Cubit<AppStates> {
     emit(ChangeScreenIndexState());
   }
 
+  
   //search settings
   ScrollController? scrollController = ScrollController();
   TextEditingController searchController = TextEditingController();
