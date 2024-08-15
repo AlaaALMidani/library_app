@@ -86,10 +86,10 @@ class BookItem extends StatelessWidget {
                     offset: Offset(0, 6),
                     blurRadius: 5),
               ],
-              border: Border.all(
-                width: 1, // border width
-                color: const Color.fromARGB(166, 31, 111, 231), // border color
-              ),
+              // border: Border.all(
+              //   width: 1, // border width
+              //   color: const Color.fromARGB(166, 215, 215, 215), // border color
+              // ),
             ),
             height: 115,
             width: 80,

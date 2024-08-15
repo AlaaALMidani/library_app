@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:library_app/layout/app_cubit.dart';
 import 'package:library_app/layout/layout.dart';
 import 'package:library_app/modules/book/book_screen.dart';
+import 'package:library_app/modules/book_information/book_infomation.dart';
 import 'package:library_app/modules/home/home_screen.dart';
 import 'package:library_app/modules/library/resources_screen.dart';
 import 'package:library_app/modules/login/login_screen.dart';
@@ -32,7 +33,7 @@ class MyApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
         ),
-        home: const BookScreen(),
+        home: const BookInformationScreen(),
       ),
     );
   }
