@@ -25,13 +25,11 @@ class AppCubit extends Cubit<AppStates> {
     const HomeScreen(),
     const FavoriteScreen(),
     const DownloadScreen(),
-    const ProfileScreen(),
   ];
   List<BottomNavigationBarItem> bottomNavBarItemList = const [
     BottomNavigationBarItem(icon: Icon(Icons.home_rounded), label: 'Home'),
     BottomNavigationBarItem(icon: Icon(Icons.favorite), label: 'Favorite'),
     BottomNavigationBarItem(icon: Icon(Icons.download), label: 'Downloads'),
-    BottomNavigationBarItem(icon: Icon(Icons.person_outline), label: 'Profile')
   ];
 
   int currentScreenIndex = 0;
@@ -40,8 +38,40 @@ class AppCubit extends Cubit<AppStates> {
     body = screens[currentScreenIndex];
     emit(ChangeScreenIndexState());
   }
+int selectedCategory=1 ; 
+// Bought books
+BooksCardsModel? boughtCardsModel;
+  gitBoughtBooksData() {
+    emit(GetSpecificCategoryBooksLoadingState());
+    DioHelper.getData(
+      url: CATEGORY_BOOKS,
+    ).then((value) {
+      favoritesCardsModel = BooksCardsModel.fromJson(value.data);
+      print(value.data);
+      emit(GetSpecificCategoryBooksSuccessState());
+    }).catchError((error) {
+      print(error.toString());
+      emit(GetSpecificCategoryBooksErrorState());
+    });
+  }
 
-// categories
+//favorites
+BooksCardsModel? favoritesCardsModel;
+  gitFavoritesData() {
+    emit(GetSpecificCategoryBooksLoadingState());
+    DioHelper.getData(
+      url: CATEGORY_BOOKS,
+    ).then((value) {
+      favoritesCardsModel = BooksCardsModel.fromJson(value.data);
+      print(value.data);
+      emit(GetSpecificCategoryBooksSuccessState());
+    }).catchError((error) {
+      print(error.toString());
+      emit(GetSpecificCategoryBooksErrorState());
+    });
+  }
+
+/* categories*/
   CategoriesModel? categoriesModel;
    gitCategories() 
    {
@@ -57,10 +87,11 @@ class AppCubit extends Cubit<AppStates> {
       emit(GetCategoriesErrorState());
     });
   }
-
+  
 //books inside specific category
   BooksCardsModel? booksCardsModel;
   gitCategoryData(context) {
+     booksCardsModel=null; 
     emit(GetSpecificCategoryBooksLoadingState());
     navigateTo(context, const BookScreen());
     DioHelper.postData(

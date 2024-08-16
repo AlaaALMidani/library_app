@@ -7,11 +7,12 @@ import 'package:shimmer/shimmer.dart';
 class CustomButton extends StatelessWidget {
   final String text;
   final Function function;
-  final double height ;
+  final double height;
   const CustomButton({
     super.key,
     required this.text,
-    required this.function, required this.height,
+    required this.function,
+    required this.height,
   });
 
   @override
@@ -303,6 +304,7 @@ Widget buildCashedImage(
   height = 250.0,
   fit = false,
   borderRadius = 0.0,
+  bool shadow = true,
 }) =>
     CachedNetworkImage(
       imageUrl: imageUrl,
@@ -316,10 +318,12 @@ Widget buildCashedImage(
               fit: fit ? BoxFit.fill : null,
             ),
             boxShadow: [
-              BoxShadow(
-                  color: const Color.fromARGB(129, 0, 0, 0),
-                  blurRadius: 7,
-                  offset: Offset(0, 8))
+              (shadow == true)
+                  ? const BoxShadow(
+                      color: Color.fromARGB(129, 0, 0, 0),
+                      blurRadius: 7,
+                      offset: Offset(0, 8))
+                  : BoxShadow(color: const Color.fromARGB(0, 255, 255, 255))
             ]),
       ),
       //  progressIndicatorBuilder: (context, url, downloadProgress) => Center(

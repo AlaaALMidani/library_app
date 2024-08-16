@@ -14,7 +14,9 @@ class HomeScreen extends StatelessWidget {
     return BlocBuilder<AppCubit, AppStates>(builder: (context, state) {
       AppCubit cubit = AppCubit.get(context);
       return Scaffold(
-          backgroundColor: const Color.fromARGB(246, 37, 158, 251),
+          backgroundColor: cubit.categoriesModel == null
+              ? white
+              : const Color.fromARGB(246, 37, 158, 251),
           body: cubit.categoriesModel == null
               ? Center(
                   child: CircularProgressIndicator(),
@@ -149,9 +151,10 @@ class CategroyItem extends StatelessWidget {
                     child: buildCashedImage(
                       image,
                       borderRadius: 0.0,
-                      height: 100,
-                      width: 100,
+                      height: 90.0,
+                      width: 80.0,
                       fit: true,
+                      shadow: false,
                     ),
                   ),
                 ],
@@ -208,11 +211,11 @@ class ResponsiveGrid extends StatelessWidget {
 }
 
 List<Color> gridItemsColor = [
+  const Color(0xffFF6474),
   const Color(0xffFBAEAE),
+  const Color(0xffFFAA5B),
   const Color(0xff71CFB9),
   const Color(0xff999FFC),
-  const Color(0xffFFAA5B),
-  const Color(0xffFF6474),
 ];
 List<String> materials = [
   'Literary books',

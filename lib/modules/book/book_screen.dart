@@ -15,46 +15,59 @@ class BookScreen extends StatelessWidget {
     return BlocBuilder<AppCubit, AppStates>(
       builder: (context, state) {
         return Scaffold(
-            backgroundColor: Colors.white,
-            body: cubit.booksCardsModel == null
-                ? const Center(child: CircularProgressIndicator())
-                : Column(
-                    children: [
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: padding - 10),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            IconButton(
-                              onPressed: () {
-                                Navigator.pop(context);
-                              },
-                              icon: const Icon(
-                                Icons.arrow_back,
-                                color: Colors.black,
-                                size: 18,
-                              ),
-                            ),
-                            Text(
-                              cubit.booksCardsModel!.category!.categoryName!,
-                              style: const TextStyle(
-                                  color: Color.fromARGB(255, 18, 18, 18),
-                                  fontSize: 10,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      Expanded(child: BooksGrid(model: cubit.booksCardsModel!)),
-                    ],
-                  ));
+          backgroundColor: Colors.white,
+          body: cubit.booksCardsModel == null
+              ? const Center(child: CircularProgressIndicator())
+              : Books(
+                  model: cubit.booksCardsModel!,
+                ),
+        );
       },
+    );
+  }
+}
+
+class Books extends StatelessWidget {
+  final BooksCardsModel model;
+  const Books({super.key, required this.model});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        const SizedBox(
+          height: 10,
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: padding - 10),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              IconButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                icon: const Icon(
+                  Icons.arrow_back,
+                  color: Colors.black,
+                  size: 18,
+                ),
+              ),
+              Text(
+                model.category!.categoryName!,
+                style: const TextStyle(
+                    color: Color.fromARGB(255, 18, 18, 18),
+                    fontSize: 10,
+                    fontWeight: FontWeight.bold),
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(
+          height: 20,
+        ),
+        Expanded(child: BooksGrid(model: model)),
+      ],
     );
   }
 }
