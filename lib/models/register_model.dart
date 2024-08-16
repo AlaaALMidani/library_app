@@ -6,7 +6,7 @@ class RegisterModel {
     status = json['status'];
     message = json['message'];
     if (status == 200) {
-      data = UserData.fromJSON(json[data]);
+      data = UserData.fromJson(json[data]);
     }
   }
 }
@@ -16,7 +16,7 @@ class UserData {
   String? name;
   String? email;
 
-  UserData.fromJSON(Map<String, dynamic> json) {
+  UserData.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
     email = json['email'];

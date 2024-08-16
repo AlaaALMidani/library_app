@@ -1,14 +1,97 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:library_app/shared/components/components.dart';
+
+import '../../shared/styles/styles.dart';
 
 class BookScreen extends StatelessWidget {
   const BookScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(backgroundColor: Colors.white, body: BooksGrid());
+    return Scaffold(
+        backgroundColor: Colors.white,
+        body: Column(
+          children: [
+            const SizedBox(
+              height: 10,
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: padding - 10),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  IconButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    icon: const Icon(
+                      Icons.arrow_back,
+                      color: Colors.black,
+                      size: 18,
+                    ),
+                  ),
+                  const Text(
+                    'Books',
+                    style: TextStyle(
+                        color: Color.fromARGB(255, 18, 18, 18),
+                        fontSize: 10,
+                        fontWeight: FontWeight.bold),
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            Expanded(child: BooksGrid()),
+          ],
+        ));
   }
 }
+
+class BooksGrid extends StatelessWidget {
+  const BooksGrid({
+    super.key,
+  });
+  @override
+  Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    return GridView.builder(
+        physics: const BouncingScrollPhysics(),
+        primary: false,
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: _getColumnCount(context),
+            crossAxisSpacing: 0,
+            mainAxisSpacing: 0,
+            childAspectRatio: 0.8),
+        itemCount: 9,
+        itemBuilder: (context, index) {
+          return BookItem(
+            author: 'ahmad',
+            img: 'assets/images/book_cover.png',
+            rate: 2.3,
+            title: 'how to be good',
+            color: gridItemsColor[index % gridItemsColor.length],
+          );
+        });
+  }
+
+  int _getColumnCount(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    if (screenWidth >= 400 && screenWidth < 600) return 3;
+    return screenWidth >= 600 ? 4 : 2;
+  }
+}
+
+const alpha = 130;
+List<Color> gridItemsColor = [
+  const Color.fromARGB(alpha, 251, 174, 174),
+  const Color.fromARGB(alpha, 113, 207, 185),
+  const Color.fromARGB(alpha, 153, 160, 252),
+  const Color.fromARGB(alpha, 255, 170, 91),
+  const Color.fromARGB(alpha, 255, 100, 115),
+];
 
 class BookItem extends StatelessWidget {
   const BookItem(
@@ -25,7 +108,7 @@ class BookItem extends StatelessWidget {
   final Color color;
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       height: 700,
       width: 130,
       child: Stack(
@@ -33,7 +116,7 @@ class BookItem extends StatelessWidget {
         children: [
           Positioned(
             top: 25,
-            child: Container(
+            child: SizedBox(
               height: 200,
               width: 130,
               child: Column(
@@ -77,75 +160,15 @@ class BookItem extends StatelessWidget {
               ),
             ),
           ),
-          Container(
-            decoration: const BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(14)),
-              boxShadow: [
-                BoxShadow(
-                    color: Color.fromARGB(136, 0, 0, 0),
-                    offset: Offset(0, 6),
-                    blurRadius: 5),
-              ],
-              // border: Border.all(
-              //   width: 1, // border width
-              //   color: const Color.fromARGB(166, 215, 215, 215), // border color
-              // ),
-            ),
-            height: 115,
-            width: 80,
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(10), // add border radius
-              child: Image.asset(
-                img,
-                fit: BoxFit.fill,
-              ),
-            ),
-          ),
+          buildCashedImage(
+            'https://fiverr-res.cloudinary.com/images/q_auto,f_auto/gigs2/363200963/original/4fcc05d81373e38ab5e13087700cef26433f4621/design-kindle-and-e-book-covers.jpg',
+            borderRadius: 7.0,
+            height: 115.0,
+            width: 80.0,
+            fit: true,
+          )
         ],
       ),
     );
   }
 }
-
-class BooksGrid extends StatelessWidget {
-  const BooksGrid({
-    super.key,
-  });
-  @override
-  Widget build(BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width;
-    return GridView.builder(
-        physics: const BouncingScrollPhysics(),
-        primary: false,
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: _getColumnCount(context),
-            crossAxisSpacing: 0,
-            mainAxisSpacing: 0,
-            childAspectRatio: 0.8),
-        itemCount: 10,
-        itemBuilder: (context, index) {
-          return BookItem(
-            author: 'ahmad',
-            img: 'assets/images/book_cover.png',
-            rate: 2.3,
-            title: 'how to be good',
-            color: gridItemsColor[index % gridItemsColor.length],
-          );
-        });
-  }
-
-  int _getColumnCount(BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width;
-    if (screenWidth >= 400 && screenWidth < 600) return 3;
-    return screenWidth >= 600 ? 4 : 2;
-  }
-}
-
-const alpha = 130;
-List<Color> gridItemsColor = [
-  const Color.fromARGB(alpha, 251, 174, 174),
-  const Color.fromARGB(alpha, 113, 207, 185),
-  const Color.fromARGB(alpha, 153, 160, 252),
-  const Color.fromARGB(alpha, 255, 170, 91),
-  const Color.fromARGB(alpha, 255, 100, 115),
-];

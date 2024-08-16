@@ -8,7 +8,7 @@ class LoginModel {
     message = json['message'];
     if (status == 200) {
       token = json['token'];
-      data = UserData.fromJSON(json[data]);
+      data = UserData.fromJson(json[data]);
     }
   }
 }
@@ -19,7 +19,7 @@ class UserData {
   String? email;
   String? wallet;
   String? role;
-  UserData.fromJSON(Map<String, dynamic> json) {
+  UserData.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
     email = json['email'];

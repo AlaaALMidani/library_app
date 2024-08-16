@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:library_app/layout/app_states.dart';
+import 'package:library_app/models/books_model.dart';
 import 'package:library_app/modules/downloads/downloads_screen.dart';
 import 'package:library_app/modules/favorite/favorite_screen.dart';
 import 'package:library_app/modules/home/home_screen.dart';
 import 'package:library_app/modules/profile/profile_screen.dart';
+import 'package:library_app/shared/network/remote/dio_helper.dart';
+import 'package:library_app/shared/network/remote/end_points.dart';
 
 class AppCubit extends Cubit<AppStates> {
   AppCubit() : super(AppInitialState());
@@ -35,7 +38,26 @@ class AppCubit extends Cubit<AppStates> {
     emit(ChangeScreenIndexState());
   }
 
-  
+//books inside specific category
+  BooksCardsModel? booksCardsModel;
+  gitCategoryData() {
+    emit(GetSpecificCategoryBooksLoadingState());
+
+    DioHelper.postData(
+      url: CATEGORY_BOOKS,
+      data: {
+        'category_id':1
+      },
+    ).then((value) {
+    // booksCardsModel = BooksCardsModel.fromJson(value.data);
+     print(value.data);
+      emit(GetSpecificCategoryBooksSuccessState());
+    }).catchError((error) {
+      print(error.toString());
+      emit(GetSpecificCategoryBooksErrorState());
+    });
+  }
+
   //search settings
   ScrollController? scrollController = ScrollController();
   TextEditingController searchController = TextEditingController();

@@ -4,13 +4,25 @@ class AppInitialState extends AppStates {}
 
 class ChangeScreenIndexState extends AppStates {}
 
-class ChangeSelectedDayIndexState extends AppStates {}
+class GetSpecificCategoryBooksSuccessState extends AppStates {}
 
-class GradeDropDownState extends AppStates {}
+class GetSpecificCategoryBooksLoadingState extends AppStates {}
 
-class SectionDropDownState extends AppStates {}
+class GetSpecificCategoryBooksErrorState extends AppStates {}
 
-class SubjectDropDownState extends AppStates {}
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 class CheckBoxState extends AppStates {}
 

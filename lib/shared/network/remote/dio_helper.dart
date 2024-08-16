@@ -16,14 +16,14 @@ class DioHelper {
     required url,
     Map<String, dynamic>? query,
     String? token,
-    String? lang = 'ar', 
+    String? lang = 'ar',
   }) async {
     print(accessToken);
-    dio!.options.headers = {
-      'Content-Type':
-          'multipart/form-data; boundary=<calculated when request is sent>',
-      'Authorization': 'Bearer $token'
-    };
+    // dio!.options.headers = {
+    //   'Content-Type':
+    //       'multipart/form-data; boundary=<calculated when request is sent>',
+    //   //'Authorization': 'Bearer $token'
+    // };
     return await dio!.get(
       url,
       queryParameters: query,
@@ -36,17 +36,16 @@ class DioHelper {
     token,
     lang,
     Map<String, dynamic>? query,
-   bool? onSendProgress,
-   bool? cubit,
+    bool? onSendProgress,
+    bool? cubit,
   }) async {
     dio!.options.headers = {
-      'Content-Type': 'application/x-www-form-urlencoded',
-      'Authorization': 'Bearer $token'
+    
     };
     return await dio!.post(
       url,
       data: data,
-      queryParameters: query,
+     // queryParameters: query,
       onSendProgress: (count, total) => print('$count, $total'),
     );
   }

@@ -39,7 +39,7 @@ class HomeScreen extends StatelessWidget {
               ),
               Container(
                 decoration: const BoxDecoration(
-                  color: Color.fromARGB(228, 255, 255, 255),
+                  color: Color.fromARGB(240, 255, 255, 255),
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(32),
                     topRight: Radius.circular(32),
@@ -128,6 +128,7 @@ class MaterialItem extends StatelessWidget {
                 children: [
                   Text(
                     materialName,
+                    textAlign: TextAlign.center,
                     style: const TextStyle(color: Colors.white),
                   ),
                   const SizedBox(
@@ -146,6 +147,7 @@ class ResponsiveGrid extends StatelessWidget {
   final List<Color> gridItemsColor;
   final List<Image> materialsImages;
   final List<String> materialsName;
+
   const ResponsiveGrid(
       {super.key,
       required this.gridItemsColor,
@@ -163,10 +165,15 @@ class ResponsiveGrid extends StatelessWidget {
         ),
         itemCount: 20,
         itemBuilder: (context, index) {
-          return MaterialItem(
-            color: gridItemsColor[index % gridItemsColor.length], 
-            image: materialsImages[index % materialsImages.length],
-            materialName: materialsName[index % materials.length],
+          return GestureDetector(
+            onTap: () {
+            AppCubit().gitCategoryData();
+            },
+            child: MaterialItem(
+              color: gridItemsColor[index % gridItemsColor.length],
+              image: materialsImages[index % materialsImages.length],
+              materialName: materialsName[index % materials.length],
+            ),
           );
         });
   }

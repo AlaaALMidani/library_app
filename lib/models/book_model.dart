@@ -13,7 +13,7 @@ class BookInformationModel {
   int averageRating;
   int totalRatings;
   
-  BookInformationModel.fromJson(Map<String, dynamic> json)
+  BookInformationModel.fromJSON(Map<String, dynamic> json)
       : id = json["id"],
         coverImage = json["cover_image"],
         bookTitle = json["book_title"],
