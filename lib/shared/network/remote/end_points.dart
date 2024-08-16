@@ -5,7 +5,7 @@ const String REGISTER = 'register';
 const String LOGOUT = 'logout';
 
 const String HOME = 'home';
-const String CATEGORIES = 'categories';
 const String FAVORITE = 'favorites';
 
+const String CATEGORIES = 'books/categories/all';
 const String CATEGORY_BOOKS = 'books/categories/books-in-category';

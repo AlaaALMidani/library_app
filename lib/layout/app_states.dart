@@ -10,19 +10,11 @@ class GetSpecificCategoryBooksLoadingState extends AppStates {}
 
 class GetSpecificCategoryBooksErrorState extends AppStates {}
 
+class GetCategoriesErrorState extends AppStates {}
 
+class GetCategoriesLoadingState extends AppStates {}
 
-
-
-
-
-
-
-
-
-
-
-
+class GetCategoriesSuccessState extends AppStates {}
 
 class CheckBoxState extends AppStates {}
 

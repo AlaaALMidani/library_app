@@ -16,6 +16,7 @@ class BookCard {
 class Category {
   int? id;
   String? categoryName;
+  
   Category.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     categoryName = json['category_name'];

@@ -1,58 +1,69 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:library_app/layout/app_cubit.dart';
+import 'package:library_app/layout/app_states.dart';
+import 'package:library_app/models/books_model.dart';
 import 'package:library_app/shared/components/components.dart';
-
 import '../../shared/styles/styles.dart';
 
 class BookScreen extends StatelessWidget {
   const BookScreen({super.key});
-
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        backgroundColor: Colors.white,
-        body: Column(
-          children: [
-            const SizedBox(
-              height: 10,
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: padding - 10),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  IconButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    icon: const Icon(
-                      Icons.arrow_back,
-                      color: Colors.black,
-                      size: 18,
-                    ),
-                  ),
-                  const Text(
-                    'Books',
-                    style: TextStyle(
-                        color: Color.fromARGB(255, 18, 18, 18),
-                        fontSize: 10,
-                        fontWeight: FontWeight.bold),
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            Expanded(child: BooksGrid()),
-          ],
-        ));
+    AppCubit cubit = AppCubit.get(context);
+
+    return BlocBuilder<AppCubit, AppStates>(
+      builder: (context, state) {
+        return Scaffold(
+            backgroundColor: Colors.white,
+            body: cubit.booksCardsModel == null
+                ? const Center(child: CircularProgressIndicator())
+                : Column(
+                    children: [
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: padding - 10),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            IconButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              icon: const Icon(
+                                Icons.arrow_back,
+                                color: Colors.black,
+                                size: 18,
+                              ),
+                            ),
+                            Text(
+                              cubit.booksCardsModel!.category!.categoryName!,
+                              style: const TextStyle(
+                                  color: Color.fromARGB(255, 18, 18, 18),
+                                  fontSize: 10,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      Expanded(child: BooksGrid(model: cubit.booksCardsModel!)),
+                    ],
+                  ));
+      },
+    );
   }
 }
 
 class BooksGrid extends StatelessWidget {
+  final BooksCardsModel model;
   const BooksGrid({
     super.key,
+    required this.model,
   });
   @override
   Widget build(BuildContext context) {
@@ -65,13 +76,14 @@ class BooksGrid extends StatelessWidget {
             crossAxisSpacing: 0,
             mainAxisSpacing: 0,
             childAspectRatio: 0.8),
-        itemCount: 9,
+        itemCount: model.books!.length,
         itemBuilder: (context, index) {
+          final itemData = model.books![index];
           return BookItem(
-            author: 'ahmad',
-            img: 'assets/images/book_cover.png',
-            rate: 2.3,
-            title: 'how to be good',
+            author: itemData.author!,
+            img: itemData.coverImage!,
+            rate: 4.9,
+            title: itemData.bookTitle!,
             color: gridItemsColor[index % gridItemsColor.length],
           );
         });
@@ -161,7 +173,7 @@ class BookItem extends StatelessWidget {
             ),
           ),
           buildCashedImage(
-            'https://fiverr-res.cloudinary.com/images/q_auto,f_auto/gigs2/363200963/original/4fcc05d81373e38ab5e13087700cef26433f4621/design-kindle-and-e-book-covers.jpg',
+            img,
             borderRadius: 7.0,
             height: 115.0,
             width: 80.0,
@@ -172,3 +184,17 @@ class BookItem extends StatelessWidget {
     );
   }
 }
+
+
+
+
+//  Center(
+//                         child: ReusableButton(
+//                         onPressed: () {
+//                           cubit.gitCategoryData(context);
+//                         },
+//                         borderRadius: BorderRadius.circular(20),
+//                         width: 70,
+//                         color: Colors.blue,
+//                         child: Text('try again'),
+//                       ))
