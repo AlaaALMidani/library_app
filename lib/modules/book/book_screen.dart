@@ -20,6 +20,7 @@ class BookScreen extends StatelessWidget {
               ? const Center(child: CircularProgressIndicator())
               : Books(
                   model: cubit.booksCardsModel!,
+                  withAppBar: true,
                 ),
         );
       },
@@ -29,7 +30,8 @@ class BookScreen extends StatelessWidget {
 
 class Books extends StatelessWidget {
   final BooksCardsModel model;
-  const Books({super.key, required this.model});
+  final bool withAppBar;
+  const Books({super.key, required this.model, required this.withAppBar});
 
   @override
   Widget build(BuildContext context) {
@@ -38,31 +40,38 @@ class Books extends StatelessWidget {
         const SizedBox(
           height: 10,
         ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: padding - 10),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              IconButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                icon: const Icon(
-                  Icons.arrow_back,
-                  color: Colors.black,
-                  size: 18,
-                ),
+        !withAppBar
+            ? const SizedBox()
+            : Column(
+                children: [
+                  Padding(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: padding - 10),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        IconButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          icon: const Icon(
+                            Icons.arrow_back,
+                            color: Colors.black,
+                            size: 18,
+                          ),
+                        ),
+                        Text(
+                          model.category!.categoryName!,
+                          style: const TextStyle(
+                              color: Color.fromARGB(255, 18, 18, 18),
+                              fontSize: 10,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
               ),
-              Text(
-                model.category!.categoryName!,
-                style: const TextStyle(
-                    color: Color.fromARGB(255, 18, 18, 18),
-                    fontSize: 10,
-                    fontWeight: FontWeight.bold),
-              ),
-            ],
-          ),
-        ),
         const SizedBox(
           height: 20,
         ),
@@ -82,7 +91,7 @@ class BooksGrid extends StatelessWidget {
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
     return GridView.builder(
-        physics: const BouncingScrollPhysics(),
+        physics: const AlwaysScrollableScrollPhysics(),
         primary: false,
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: _getColumnCount(context),
@@ -92,12 +101,14 @@ class BooksGrid extends StatelessWidget {
         itemCount: model.books!.length,
         itemBuilder: (context, index) {
           final itemData = model.books![index];
-          return BookItem(
-            author: itemData.author!,
-            img: itemData.coverImage!,
-            rate: 4.9,
-            title: itemData.bookTitle!,
-            color: gridItemsColor[index % gridItemsColor.length],
+          return GestureDetector(
+            child: BookItem(
+              author: itemData.author!,
+              img: itemData.coverImage!,
+              rate: 4.9,
+              title: itemData.bookTitle!,
+              color: gridItemsColor[index % gridItemsColor.length],
+            ),
           );
         });
   }

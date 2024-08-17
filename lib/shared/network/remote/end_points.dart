@@ -5,8 +5,8 @@ const String REGISTER = 'register';
 const String LOGOUT = 'logout';
 const String HOME = 'home';
 
-
-
 const String CATEGORIES = 'books/categories/all';
 const String CATEGORY_BOOKS = 'books/categories/books-in-category';
-const String FAVORITE = 'favorites';
+const String FAVORITE = 'user/favorite/show_favoriteList';
+const String PURCHASED = 'user/purchased-books';
+const String BOOKINFORMATION = 'books/';

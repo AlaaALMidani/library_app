@@ -30,7 +30,7 @@ class BooksCardsModel {
 
   BooksCardsModel.fromJson(Map<String, dynamic> json) {
     status = json['status'];
-    category = Category.fromJson(json['category']);
+    category =json['category']!=null? Category.fromJson(json['category']):null;
     books = List<BookCard>.from(json['books'].map((e) => BookCard.fromJson(e)));
   }
 }

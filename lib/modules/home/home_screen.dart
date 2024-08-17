@@ -21,56 +21,64 @@ class HomeScreen extends StatelessWidget {
               ? Center(
                   child: CircularProgressIndicator(),
                 )
-              : SingleChildScrollView(
-                  child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        const SizedBox(
-                          height: 30,
-                        ),
-                        const Padding(
-                          padding: EdgeInsets.symmetric(horizontal: padding),
-                          child: Text(
-                            'Ready to Explore Knowledge Hub?',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 22,
+              : RefreshIndicator(
+                  onRefresh: () {
+                    return Future.delayed(Duration(seconds: 1), () {
+                      cubit.gitCategories();
+                    });
+                  },
+                  child: SingleChildScrollView(
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.max,
+                        children: [
+                          const SizedBox(
+                            height: 30,
+                          ),
+                          const Padding(
+                            padding: EdgeInsets.symmetric(horizontal: padding),
+                            child: Text(
+                              'Ready to Explore Knowledge Hub?',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 22,
+                              ),
                             ),
                           ),
-                        ),
-                        const Padding(
-                          padding: EdgeInsets.only(
-                              left: padding,
-                              bottom: padding,
-                              top: padding - 10),
-                          child: Text(
-                            'Choose a Gateway',
-                            style: TextStyle(color: Colors.white, fontSize: 11),
-                          ),
-                        ),
-                        Container(
-                          decoration: const BoxDecoration(
-                            color: Color.fromARGB(240, 255, 255, 255),
-                            borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(32),
-                              topRight: Radius.circular(32),
+                          const Padding(
+                            padding: EdgeInsets.only(
+                                left: padding,
+                                bottom: padding,
+                                top: padding - 10),
+                            child: Text(
+                              'Choose a Gateway',
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 11),
                             ),
                           ),
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: padding,
-                              vertical: padding,
+                          Container(
+                            decoration: const BoxDecoration(
+                              color: Color.fromARGB(240, 255, 255, 255),
+                              borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(32),
+                                topRight: Radius.circular(32),
+                              ),
                             ),
-                            child: ResponsiveGrid(
-                              materialsName: materials,
-                              gridItemsColor: gridItemsColor,
-                              materialsImages: materialsImages,
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: padding,
+                                vertical: padding,
+                              ),
+                              child: ResponsiveGrid(
+                                materialsName: materials,
+                                gridItemsColor: gridItemsColor,
+                                materialsImages: materialsImages,
+                              ),
                             ),
-                          ),
-                        )
-                      ]),
+                          )
+                        ]),
+                  ),
                 ));
     });
   }
@@ -192,7 +200,8 @@ class ResponsiveGrid extends StatelessWidget {
         var categoryData = cubit.categoriesModel!.categories![index];
         return GestureDetector(
           onTap: () {
-            cubit.gitCategoryData(context);
+          
+            cubit.gitCategoryData(context,categoryData.id!);
           },
           child: CategroyItem(
             color: gridItemsColor[index % gridItemsColor.length],

@@ -1,14 +1,16 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:library_app/layout/app_states.dart';
+import 'package:library_app/models/book_model.dart';
 import 'package:library_app/models/books_model.dart';
 import 'package:library_app/models/category_model.dart';
 import 'package:library_app/modules/book/book_screen.dart';
 import 'package:library_app/modules/downloads/downloads_screen.dart';
 import 'package:library_app/modules/favorite/favorite_screen.dart';
 import 'package:library_app/modules/home/home_screen.dart';
-import 'package:library_app/modules/profile/profile_screen.dart';
 import 'package:library_app/shared/components/components.dart';
+import 'package:library_app/shared/components/constants.dart';
 import 'package:library_app/shared/network/remote/dio_helper.dart';
 import 'package:library_app/shared/network/remote/end_points.dart';
 
@@ -36,45 +38,81 @@ class AppCubit extends Cubit<AppStates> {
   changeCurrentScreenIndex(int index) {
     currentScreenIndex = index;
     body = screens[currentScreenIndex];
+    if (index == 1 && favoritesCardsModel == null) {
+      gitFavoritesData();
+    } else if (index == 2 && boughtCardsModel == null) {
+      gitBoughtBooksData();
+    }
     emit(ChangeScreenIndexState());
   }
-int selectedCategory=1 ; 
-// Bought books
-BooksCardsModel? boughtCardsModel;
-  gitBoughtBooksData() {
-    emit(GetSpecificCategoryBooksLoadingState());
+
+//book information
+  BookInformationModel? bookInformationModel;
+  gitBookInformation(id) {
+    emit(GetBookInformationLoadingState());
     DioHelper.getData(
-      url: CATEGORY_BOOKS,
+      url: '$PURCHASED$id',
+      token: accessToken,
     ).then((value) {
-      favoritesCardsModel = BooksCardsModel.fromJson(value.data);
+      bookInformationModel = BookInformationModel.fromJson(value.data);
       print(value.data);
-      emit(GetSpecificCategoryBooksSuccessState());
+      emit(GetBookInformationSuccessState());
     }).catchError((error) {
-      print(error.toString());
-      emit(GetSpecificCategoryBooksErrorState());
+      print(error.response);
+      String massage =
+          error.response!.data['message'] ?? 'Its network coniction Error';
+
+      emit(GetBookInformationErrorState(massage));
+    });
+  }
+
+// Bought books
+  BooksCardsModel? boughtCardsModel;
+  gitBoughtBooksData() {
+    emit(GetPurchasedLoadingState());
+    DioHelper.getData(
+      url: PURCHASED,
+      token: accessToken,
+    ).then((value) {
+      boughtCardsModel = BooksCardsModel.fromJson(value.data);
+      print(value.data);
+      emit(GetPurchasedSuccessState());
+    }).catchError((error) {
+      print(error.response);
+      String massage =
+          error.response!.data['message'] ?? 'Its network coniction Error';
+
+      emit(GetPurchasedErrorState(massage));
     });
   }
 
 //favorites
-BooksCardsModel? favoritesCardsModel;
+  BooksCardsModel? favoritesCardsModel;
   gitFavoritesData() {
-    emit(GetSpecificCategoryBooksLoadingState());
+    favoritesCardsModel = null;
+    emit(GetFavoriteLoadingState());
     DioHelper.getData(
-      url: CATEGORY_BOOKS,
+      url: FAVORITE,
+      token: accessToken,
     ).then((value) {
-      favoritesCardsModel = BooksCardsModel.fromJson(value.data);
       print(value.data);
-      emit(GetSpecificCategoryBooksSuccessState());
+
+      favoritesCardsModel = BooksCardsModel.fromJson(value.data);
+      emit(GetFavoriteSuccessState());
     }).catchError((error) {
       print(error.toString());
-      emit(GetSpecificCategoryBooksErrorState());
+      String massage = error.toString();
+      if (error is DioException) {
+        String massage =
+            error.response!.data['message'] ?? 'Its network coniction Error';
+      }
+      emit(GetFavoriteErrorState(massage));
     });
   }
 
 /* categories*/
   CategoriesModel? categoriesModel;
-   gitCategories() 
-   {
+  gitCategories() {
     emit(GetCategoriesLoadingState());
     DioHelper.getData(
       url: CATEGORIES,
@@ -84,26 +122,33 @@ BooksCardsModel? favoritesCardsModel;
       emit(GetCategoriesSuccessState());
     }).catchError((error) {
       print(error.toString());
-      emit(GetCategoriesErrorState());
+      String massage = error.toString();
+      if (error is DioException) {
+        String massage =
+            error.response!.data['message'] ?? 'Its network coniction Error';
+      }
+      emit(GetCategoriesErrorState(massage));
     });
   }
-  
+
 //books inside specific category
   BooksCardsModel? booksCardsModel;
-  gitCategoryData(context) {
-     booksCardsModel=null; 
+  gitCategoryData(context, id) {
+    booksCardsModel = null;
     emit(GetSpecificCategoryBooksLoadingState());
     navigateTo(context, const BookScreen());
     DioHelper.postData(
       url: CATEGORY_BOOKS,
-      data: {'category_id': 1},
+      data: {'category_id': id},
     ).then((value) {
       booksCardsModel = BooksCardsModel.fromJson(value.data);
       print(value.data);
       emit(GetSpecificCategoryBooksSuccessState());
     }).catchError((error) {
       print(error.toString());
-      emit(GetSpecificCategoryBooksErrorState());
+      String massage =
+          error.response!.data['message'] ?? 'Its network coniction Error';
+      emit(GetSpecificCategoryBooksErrorState(massage));
     });
   }
 

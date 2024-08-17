@@ -14,13 +14,20 @@ class FavoriteScreen extends StatelessWidget {
     return BlocBuilder<AppCubit, AppStates>(
       builder: (context, state) {
         return Scaffold(
-          backgroundColor: Colors.white,
-          body: cubit.favoritesCardsModel == null
-              ? const Center(child: CircularProgressIndicator())
-              : Books(
-                  model: cubit.favoritesCardsModel!,
-                ),
-        );
+            backgroundColor: Colors.white,
+            body: cubit.favoritesCardsModel == null
+                ? const Center(child: CircularProgressIndicator())
+                : RefreshIndicator(
+                    onRefresh: () {
+                      return Future.delayed(Duration(seconds: 1), () {
+                        cubit.gitFavoritesData();
+                      });
+                    },
+                    child: Books(
+                      model: cubit.favoritesCardsModel!,
+                      withAppBar: false,
+                    ),
+                  ));
       },
     );
   }
