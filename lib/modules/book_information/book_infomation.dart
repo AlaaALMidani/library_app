@@ -17,7 +17,7 @@ class BookInformationScreen extends StatelessWidget {
             backgroundColor: white,
             bottomNavigationBar: model == null
                 ? const SizedBox()
-                : model.buyBook == 0
+                : model.buyBook == 1
                     ? Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -27,7 +27,7 @@ class BookInformationScreen extends StatelessWidget {
                               onPressed: () {
                                 navigateTo(
                                     context, PdfReader(path: model.pdfPath));
-                              },  
+                              },
                               width: 80,
                               color: const Color.fromARGB(255, 0, 255, 60),
                               borderRadius: BorderRadius.circular(10),
@@ -67,7 +67,10 @@ class BookInformationScreen extends StatelessWidget {
                               ReusableButton(
                                 borderRadius: BorderRadius.circular(8),
                                 width: 150,
-                                onPressed: () {},
+                                onPressed: () {
+                                  AppCubit.get(context)
+                                      .buyBook(model.id, model.price);
+                                },
                                 color: Colors.blue,
                                 child: const SmallText(
                                   text: 'Buy Now!',

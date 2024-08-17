@@ -6,6 +6,7 @@ import 'package:library_app/layout/layout.dart';
 import 'package:library_app/modules/book/book_screen.dart';
 import 'package:library_app/modules/book_information/book_infomation.dart';
 import 'package:library_app/modules/home/home_screen.dart';
+import 'package:library_app/modules/login/login_screen.dart';
 import 'package:library_app/shared/block_observer.dart';
 import 'package:library_app/shared/network/locale/cash_helper.dart';
 import 'shared/network/remote/dio_helper.dart';
@@ -33,7 +34,7 @@ class MyApp extends StatelessWidget {
               colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
               useMaterial3: true,
             ),
-            home: const Layout(),
+            home: const LoginScreen(),
           );
         },
       ),

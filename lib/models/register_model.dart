@@ -6,7 +6,7 @@ class RegisterModel {
     status = json['status'];
     message = json['message'];
     if (status == 200) {
-      data = UserData.fromJson(json[data]);
+      data = UserData.fromJson(json['data']);
     }
   }
 }

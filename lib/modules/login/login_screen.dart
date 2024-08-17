@@ -130,7 +130,7 @@ class LoginScreen extends StatelessWidget {
                                           if (loginCubit
                                               .loginFormKey.currentState!
                                               .validate()) {
-                                            print('ewfw');
+                                            loginCubit.postLoginData(context);
                                           }
                                         },
                                         width: double.infinity,

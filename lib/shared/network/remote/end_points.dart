@@ -12,3 +12,4 @@ const String PURCHASED = 'user/purchased-books';
 const String BOOKINFORMATION = 'books/';
 const String ADDTOFAVORITE = 'books/favorite/add_book';
 const String REMOVEFROMFAVORITES = 'books/favorite/remove_book';
+const String BUYBOOK ='user/buy-book'; 

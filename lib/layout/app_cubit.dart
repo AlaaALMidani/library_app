@@ -46,6 +46,25 @@ class AppCubit extends Cubit<AppStates> {
     emit(ChangeScreenIndexState());
   }
 
+// bay book
+  buyBook(id,price) {
+    emit(BuyBookLoadingState());
+    DioHelper.postData(
+      url: BUYBOOK,
+      data: {'book_id': id,'price':price},
+      token: accessToken,
+    ).then((value) {
+      print(value.data);
+      bookInformationModel!.buyBook = 1;
+      emit(BuyBookSuccessState());
+    }).catchError((error) {
+      print(error.toString());
+      String massage =
+          error.response!.data['message'] ?? 'Its network coniction Error';
+      emit(BuyBookErrorState(massage));
+    });
+  }
+
 // add to favorite
   addBookToFavorite(id) {
     emit(AddToFavoriteLoadingState());
@@ -65,7 +84,7 @@ class AppCubit extends Cubit<AppStates> {
     });
   }
 
-//remove from favorite 
+//remove from favorite
   removeBookFromFavorite(id) {
     emit(AddToFavoriteLoadingState());
     DioHelper.postData(

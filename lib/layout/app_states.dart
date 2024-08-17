@@ -91,6 +91,18 @@ class AddToFavoriteErrorState extends AppStates {
 //
 //
 //
+class BuyBookLoadingState extends AppStates {}
+
+class BuyBookSuccessState extends AppStates {}
+
+class BuyBookErrorState extends AppStates {
+  final String error;
+  BuyBookErrorState(this.error);
+}
+
+//
+//
+//
 class CheckBoxState extends AppStates {}
 
 class ShowBottomSheetState extends AppStates {}
