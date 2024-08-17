@@ -39,16 +39,16 @@ class AppCubit extends Cubit<AppStates> {
     currentScreenIndex = index;
     body = screens[currentScreenIndex];
     if (index == 1 && favoritesCardsModel == null) {
-      gitFavoritesData();
+      getFavoritesData();
     } else if (index == 2 && boughtCardsModel == null) {
-      gitBoughtBooksData();
+      getBoughtBooksData();
     }
     emit(ChangeScreenIndexState());
   }
 
 //book information
   BookInformationModel? bookInformationModel;
-  gitBookInformation(id) {
+  getBookInformation(id) {
     emit(GetBookInformationLoadingState());
     DioHelper.getData(
       url: '$PURCHASED$id',
@@ -68,7 +68,7 @@ class AppCubit extends Cubit<AppStates> {
 
 // Bought books
   BooksCardsModel? boughtCardsModel;
-  gitBoughtBooksData() {
+  getBoughtBooksData() {
     emit(GetPurchasedLoadingState());
     DioHelper.getData(
       url: PURCHASED,
@@ -88,7 +88,7 @@ class AppCubit extends Cubit<AppStates> {
 
 //favorites
   BooksCardsModel? favoritesCardsModel;
-  gitFavoritesData() {
+  getFavoritesData() {
     favoritesCardsModel = null;
     emit(GetFavoriteLoadingState());
     DioHelper.getData(
@@ -112,7 +112,7 @@ class AppCubit extends Cubit<AppStates> {
 
 /* categories*/
   CategoriesModel? categoriesModel;
-  gitCategories() {
+  getCategories() {
     emit(GetCategoriesLoadingState());
     DioHelper.getData(
       url: CATEGORIES,
@@ -133,7 +133,7 @@ class AppCubit extends Cubit<AppStates> {
 
 //books inside specific category
   BooksCardsModel? booksCardsModel;
-  gitCategoryData(context, id) {
+  getCategoryData(context, id) {
     booksCardsModel = null;
     emit(GetSpecificCategoryBooksLoadingState());
     navigateTo(context, const BookScreen());

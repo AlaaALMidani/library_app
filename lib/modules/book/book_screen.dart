@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:library_app/layout/app_cubit.dart';
 import 'package:library_app/layout/app_states.dart';
 import 'package:library_app/models/books_model.dart';
+import 'package:library_app/modules/book_information/book_infomation.dart';
 import 'package:library_app/shared/components/components.dart';
 import '../../shared/styles/styles.dart';
 
@@ -102,6 +103,10 @@ class BooksGrid extends StatelessWidget {
         itemBuilder: (context, index) {
           final itemData = model.books![index];
           return GestureDetector(
+            onTap: () {
+              navigateTo(context, const BookInformationScreen());
+              AppCubit.get(context).getBookInformation(itemData.id);
+            },
             child: BookItem(
               author: itemData.author!,
               img: itemData.coverImage!,

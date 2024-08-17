@@ -21,7 +21,7 @@ class DownloadScreen extends StatelessWidget {
               ? RefreshIndicator(
                   onRefresh: () {
                     return Future.delayed(Duration(seconds: 1), () {
-                      cubit.gitBoughtBooksData();
+                      cubit.getBoughtBooksData();
                     });
                   },
                   child: Books(
@@ -32,7 +32,7 @@ class DownloadScreen extends StatelessWidget {
                   ? CustomErrorWidget(
                       errorMessage: state.error,
                       function: () {
-                        cubit.gitBoughtBooksData();
+                        cubit.getBoughtBooksData();
                       },
                     )
                   : const Center(

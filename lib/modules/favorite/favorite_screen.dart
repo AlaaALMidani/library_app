@@ -20,7 +20,7 @@ class FavoriteScreen extends StatelessWidget {
                 : RefreshIndicator(
                     onRefresh: () {
                       return Future.delayed(Duration(seconds: 1), () {
-                        cubit.gitFavoritesData();
+                        cubit.getFavoritesData();
                       });
                     },
                     child: Books(

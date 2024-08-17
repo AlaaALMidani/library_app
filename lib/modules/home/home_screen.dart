@@ -24,7 +24,7 @@ class HomeScreen extends StatelessWidget {
               : RefreshIndicator(
                   onRefresh: () {
                     return Future.delayed(Duration(seconds: 1), () {
-                      cubit.gitCategories();
+                      cubit.getCategories();
                     });
                   },
                   child: SingleChildScrollView(
@@ -201,7 +201,7 @@ class ResponsiveGrid extends StatelessWidget {
         return GestureDetector(
           onTap: () {
           
-            cubit.gitCategoryData(context,categoryData.id!);
+            cubit.getCategoryData(context,categoryData.id!);
           },
           child: CategroyItem(
             color: gridItemsColor[index % gridItemsColor.length],

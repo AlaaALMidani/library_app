@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
-      providers: [BlocProvider(create: (context) => AppCubit()..gitCategories())],
+      providers: [BlocProvider(create: (context) => AppCubit()..getCategories())],
       child: BlocBuilder<AppCubit, AppStates>(
         builder: (context, state) {
           return MaterialApp(
