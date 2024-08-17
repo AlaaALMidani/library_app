@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:library_app/layout/app_cubit.dart';
 import 'package:library_app/layout/app_states.dart';
+import 'package:library_app/modules/pdf_reader/pdf_reader.dart';
 import 'package:library_app/shared/components/components.dart';
 import 'package:library_app/shared/styles/styles.dart';
 
@@ -16,45 +17,67 @@ class BookInformationScreen extends StatelessWidget {
             backgroundColor: white,
             bottomNavigationBar: model == null
                 ? const SizedBox()
-                : Container(
-                    decoration: BoxDecoration(
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.5),
-                          spreadRadius: 5,
-                          blurRadius: 7,
-                          offset: const Offset(0,
-                              -3), // adjust the offset to change the direction of the shadow
-                        ),
-                      ],
-                    ),
-                    child: BottomAppBar(
-                      height: 55,
-                      color: white,
-                      child: Row(
+                : model.buyBook == 0
+                    ? Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                           Text(
-                            '${model.price}\$',
-                            style: const TextStyle(
-                                color: Color.fromARGB(255, 0, 0, 0),
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold),
-                          ),
-                          const Spacer(),
-                          ReusableButton(
-                            borderRadius: BorderRadius.circular(8),
-                            width: 150,
-                            onPressed: () {},
-                            color: Colors.blue,
-                            child: const SmallText(
-                              text: 'Buy Now!',
-                              color: Colors.white,
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: ReusableButton(
+                              onPressed: () {
+                                navigateTo(
+                                    context, PdfReader(path: model.pdfPath));
+                              },  
+                              width: 80,
+                              color: const Color.fromARGB(255, 0, 255, 60),
+                              borderRadius: BorderRadius.circular(10),
+                              child: const SmallText(
+                                text: 'Read it!',
+                                color: Colors.white,
+                              ),
                             ),
-                          )
+                          ),
                         ],
+                      )
+                    : Container(
+                        decoration: BoxDecoration(
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.5),
+                              spreadRadius: 5,
+                              blurRadius: 7,
+                              offset: const Offset(0,
+                                  -3), // adjust the offset to change the direction of the shadow
+                            ),
+                          ],
+                        ),
+                        child: BottomAppBar(
+                          height: 55,
+                          color: white,
+                          child: Row(
+                            children: [
+                              Text(
+                                '${model.price}\$',
+                                style: const TextStyle(
+                                    color: Color.fromARGB(255, 0, 0, 0),
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              const Spacer(),
+                              ReusableButton(
+                                borderRadius: BorderRadius.circular(8),
+                                width: 150,
+                                onPressed: () {},
+                                color: Colors.blue,
+                                child: const SmallText(
+                                  text: 'Buy Now!',
+                                  color: Colors.white,
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
             body: model == null
                 ? const Center(child: CircularProgressIndicator())
                 : Column(
@@ -87,11 +110,19 @@ class BookInformationScreen extends StatelessWidget {
                             ),
                             const Spacer(),
                             IconButton(
-                                onPressed: () {},
-                                icon: const Icon(
+                                onPressed: () {
+                                  model.favorite == 0
+                                      ? AppCubit.get(context)
+                                          .addBookToFavorite(model.id)
+                                      : AppCubit.get(context)
+                                          .removeBookFromFavorite(model.id);
+                                },
+                                icon: Icon(
                                   Icons.favorite,
                                   size: 18,
-                                  color: Colors.blueGrey,
+                                  color: model.favorite == 1
+                                      ? Colors.red
+                                      : Colors.blueGrey,
                                 ))
                           ],
                         ),
@@ -174,7 +205,8 @@ class BookInformationScreen extends StatelessWidget {
                                     SmallIcon(
                                       text: model.categoryName,
                                       icon: Icons.type_specimen,
-                                      color: const Color.fromARGB(210, 234, 94, 94),
+                                      color: const Color.fromARGB(
+                                          210, 234, 94, 94),
                                     ),
                                     const SizedBox(
                                       width: 10,
@@ -182,7 +214,8 @@ class BookInformationScreen extends StatelessWidget {
                                     SmallIcon(
                                       text: model.pdfSize,
                                       icon: Icons.type_specimen,
-                                      color: const Color.fromARGB(211, 94, 234, 99),
+                                      color: const Color.fromARGB(
+                                          211, 94, 234, 99),
                                     ),
                                   ],
                                 ),

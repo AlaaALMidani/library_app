@@ -105,9 +105,11 @@ class BooksGrid extends StatelessWidget {
           return GestureDetector(
             onTap: () {
               navigateTo(context, const BookInformationScreen());
-              AppCubit.get(context).getBookInformation(itemData.id);
+
+              AppCubit.get(context).getBookInformation(itemData.id!);
             },
             child: BookItem(
+
               author: itemData.author!,
               img: itemData.coverImage!,
               rate: 4.9,
@@ -173,8 +175,11 @@ class BookItem extends StatelessWidget {
                   Center(
                     child: Text(
                       title,
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 2,
+                      textAlign: TextAlign.center,
                       style: const TextStyle(
-                          fontSize: 14, fontWeight: FontWeight.bold),
+                          fontSize: 12, fontWeight: FontWeight.bold),
                     ),
                   ),
                   Center(

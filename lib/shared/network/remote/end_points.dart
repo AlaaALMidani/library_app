@@ -10,3 +10,5 @@ const String CATEGORY_BOOKS = 'books/categories/books-in-category';
 const String FAVORITE = 'user/favorite/show_favoriteList';
 const String PURCHASED = 'user/purchased-books';
 const String BOOKINFORMATION = 'books/';
+const String ADDTOFAVORITE = 'books/favorite/add_book';
+const String REMOVEFROMFAVORITES = 'books/favorite/remove_book';

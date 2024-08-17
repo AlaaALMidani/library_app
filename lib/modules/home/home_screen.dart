@@ -200,8 +200,7 @@ class ResponsiveGrid extends StatelessWidget {
         var categoryData = cubit.categoriesModel!.categories![index];
         return GestureDetector(
           onTap: () {
-          
-            cubit.getCategoryData(context,categoryData.id!);
+            cubit.getCategoryData(context, categoryData.id!);
           },
           child: CategroyItem(
             color: gridItemsColor[index % gridItemsColor.length],

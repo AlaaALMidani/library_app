@@ -46,12 +46,52 @@ class AppCubit extends Cubit<AppStates> {
     emit(ChangeScreenIndexState());
   }
 
+// add to favorite
+  addBookToFavorite(id) {
+    emit(AddToFavoriteLoadingState());
+    DioHelper.postData(
+      url: ADDTOFAVORITE,
+      data: {'book_id': id},
+      token: accessToken,
+    ).then((value) {
+      print(value.data);
+      bookInformationModel!.favorite = 1;
+      emit(AddToFavoriteSuccessState());
+    }).catchError((error) {
+      print(error.toString());
+      String massage =
+          error.response!.data['message'] ?? 'Its network coniction Error';
+      emit(AddToFavoriteErrorState(massage));
+    });
+  }
+
+//remove from favorite 
+  removeBookFromFavorite(id) {
+    emit(AddToFavoriteLoadingState());
+    DioHelper.postData(
+      url: REMOVEFROMFAVORITES,
+      data: {'book_id': id},
+      token: accessToken,
+    ).then((value) {
+      print(value.data);
+      bookInformationModel!.favorite = 0;
+      emit(AddToFavoriteSuccessState());
+    }).catchError((error) {
+      print(error.toString());
+      String massage =
+          error.response!.data['message'] ?? 'Its network coniction Error';
+      emit(AddToFavoriteErrorState(massage));
+    });
+  }
+
 //book information
   BookInformationModel? bookInformationModel;
-  getBookInformation(id) {
+  getBookInformation(int id) {
+    bookInformationModel = null;
     emit(GetBookInformationLoadingState());
+
     DioHelper.getData(
-      url: '$PURCHASED$id',
+      url: 'books/$id',
       token: accessToken,
     ).then((value) {
       bookInformationModel = BookInformationModel.fromJson(value.data);

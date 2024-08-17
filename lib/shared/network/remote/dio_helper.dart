@@ -19,9 +19,7 @@ class DioHelper {
     String? lang = 'ar',
   }) async {
     print(accessToken);
-    dio!.options.headers = {
-      'Authorization': 'Bearer $token'
-    };
+    dio!.options.headers = {'Authorization': 'Bearer $token'};
     return await dio!.get(
       url,
       queryParameters: query,
@@ -37,13 +35,15 @@ class DioHelper {
     bool? onSendProgress,
     bool? cubit,
   }) async {
-    dio!.options.headers = {
-    
-    };
+    if (accessToken != null) {
+      dio!.options.headers = {
+        'Authorization': 'Bearer $token'
+      };
+    }
     return await dio!.post(
       url,
       data: data,
-     // queryParameters: query,
+      // queryParameters: query,
       onSendProgress: (count, total) => print('$count, $total'),
     );
   }

@@ -14,7 +14,7 @@ class GetSpecificCategoryBooksSuccessState extends AppStates {}
 class GetSpecificCategoryBooksLoadingState extends AppStates {}
 
 class GetSpecificCategoryBooksErrorState extends AppStates {
-   final String error;
+  final String error;
   GetSpecificCategoryBooksErrorState(this.error);
 }
 
@@ -74,10 +74,23 @@ class GetBookInformationErrorState extends AppStates {
   final String error;
   GetBookInformationErrorState(this.error);
 }
-//
-//
-//
 
+//
+//
+//
+class AddToFavoriteLoadingState extends AppStates {}
+
+class AddToFavoriteSuccessState extends AppStates {}
+
+class AddToFavoriteErrorState extends AppStates {
+  final String error;
+
+  AddToFavoriteErrorState(this.error);
+}
+
+//
+//
+//
 class CheckBoxState extends AppStates {}
 
 class ShowBottomSheetState extends AppStates {}
